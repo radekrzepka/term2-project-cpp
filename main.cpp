@@ -1,18 +1,18 @@
-#include <wx/wx.h>
-
-class App : public wxApp {
-public:
-    bool OnInit() {
-        wxFrame* window = new wxFrame(NULL, wxID_ANY, "GUI Test", wxDefaultPosition, wxSize(600, 400));
-        wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-        wxStaticText* text = new wxStaticText(window, wxID_ANY, "dla bena",
-            wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
-        text->SetFont(wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
-        sizer->Add(text, 1, wxALIGN_CENTER);
-        window->SetSizer(sizer);
-        window->Show();
-        return true;
-    }
-};
-
-wxIMPLEMENT_APP(App);
+//#include <wx/wx.h>
+//
+//class app : public wxapp {
+//public:
+//    bool oninit() {
+//        wxframe* window = new wxframe(null, wxid_any, "gui test", wxdefaultposition, wxsize(600, 400));
+//        wxboxsizer* sizer = new wxboxsizer(wxhorizontal);
+//        wxstatictext* text = new wxstatictext(window, wxid_any, "dla bena",
+//            wxdefaultposition, wxdefaultsize, wxalign_centre_horizontal);
+//        text->setfont(wxfont(20, wxfontfamily_default, wxfontstyle_normal, wxfontweight_normal));
+//        sizer->add(text, 1, wxalign_center);
+//        window->setsizer(sizer);
+//        window->show();
+//        return true;
+//    }
+//};
+//
+//wximplement_app(app);
