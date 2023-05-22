@@ -5,7 +5,7 @@ public:
     bool OnInit() {
         wxFrame* window = new wxFrame(NULL, wxID_ANY, "GUI Test", wxDefaultPosition, wxSize(600, 400));
         wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-        wxStaticText* text = new wxStaticText(window, wxID_ANY, "dla radka chuja",
+        wxStaticText* text = new wxStaticText(window, wxID_ANY, "dla bena",
             wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
         text->SetFont(wxFont(20, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
         sizer->Add(text, 1, wxALIGN_CENTER);
