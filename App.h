@@ -1,8 +1,16 @@
 #pragma once
-#include <wx/wx.h>
+#include <wx/wx.h> //glowna biblioteka wxWidgets
 
-class App : public wxApp {
+class Values {
 public:
-	bool OnInit();
+	wxString totalCalories;
 };
 
+extern Values values;
+
+class App : public wxApp { //klasa App reprezentuje aplikacje
+public:
+	bool OnInit(); //metoda OnInit() reprezentuje glowna funkcje
+private:
+
+};

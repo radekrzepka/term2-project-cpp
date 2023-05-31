@@ -18,12 +18,18 @@
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrame.cpp">
+    <ClCompile Include="WelcomeFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SummingFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddingFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainFrame.h">
+    <ClInclude Include="Frames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="App.h">

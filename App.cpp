@@ -1,13 +1,12 @@
 #include "App.h"
-#include "MainFrame.h"
+#include "Frames.h"
 #include "wx/wx.h"
 
 wxIMPLEMENT_APP(App);
 
+Values values;
+
 bool App::OnInit() {
-	MainFrame* mainFrame = new MainFrame("C++ GUI");
-	mainFrame->SetClientSize(800, 600);
-	mainFrame->Center();
-	mainFrame->Show();
+	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 	return true;
 }
