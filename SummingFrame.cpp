@@ -1,24 +1,37 @@
 #include "App.h"
 #include "Frames.h"
+#include "Products.h"
 #include <wx/wx.h>
 
 SummingFrame::SummingFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title) {
 	wxPanel* summingFramePanel = new wxPanel(this, wxID_ANY);
-	wxStaticText* line = new wxStaticText(summingFramePanel, wxID_ANY, "Total amount: ", wxPoint(25, 25));
-	totalCaloriesAmount = new wxStaticText(summingFramePanel, wxID_ANY, values.totalCalories, wxPoint(100, 25));
-	wxButton* addingButton = new wxButton(summingFramePanel, wxID_ANY, "Add meal", wxPoint(25, 75), wxSize(100, -1));
+	wxStaticText* totalKcalText = new wxStaticText(summingFramePanel, wxID_ANY, "kcal: ", wxPoint(25, 25));
+	wxStaticText* totalProteinText = new wxStaticText(summingFramePanel, wxID_ANY, "protein: ", wxPoint(125, 25));
+	wxStaticText* totalCarbsLine = new wxStaticText(summingFramePanel, wxID_ANY, "carbs: ", wxPoint(225, 25));
+	wxStaticText* totalFatLine = new wxStaticText(summingFramePanel, wxID_ANY, "fat: ", wxPoint(325, 25));
+	totalCaloriesAmount = new wxStaticText(summingFramePanel, wxID_ANY, values.totalCalories, wxPoint(50, 25));
+	totalProteinAmount = new wxStaticText(summingFramePanel, wxID_ANY, values.totalProtein, wxPoint(170, 25));
+	totalCarbsAmount = new wxStaticText(summingFramePanel, wxID_ANY, values.totalCarbs, wxPoint(260, 25));
+	totalFatAmount = new wxStaticText(summingFramePanel, wxID_ANY, values.totalFat, wxPoint(345, 25));
+	wxButton* addingButton = new wxButton(summingFramePanel, wxID_ANY, "Add product", wxPoint(445, 75), wxSize(100, -1));
 	addingButton->Bind(wxEVT_BUTTON, &SummingFrame::OnAddingButtonClick, this);
 	this->SetDisplay();
 }
 
-void SummingFrame::GetUpdate(wxString a)
+void SummingFrame::GetUpdate(wxStaticText* A, wxString a)
 {
-	totalCaloriesAmount->SetLabel(a);
+	A->SetLabel(a);
 }
 
 void SummingFrame::OnAddingButtonClick(wxCommandEvent& event) {
-	AddingFrame* addingFrame = new AddingFrame("Add meal");
-	addingFrame->summingFrame1 = this;
+	if (isAddingFrameOpen == false) {
+		AddingFrame* addingFrame = new AddingFrame("Add meal");
+		addingFrame->summingFrame = this;
+		isAddingFrameOpen = true;
+	}
+	else {
+		wxMessageBox("Insert your meal values first!");
+	}
 }
 
 void SummingFrame::SetDisplay() {
