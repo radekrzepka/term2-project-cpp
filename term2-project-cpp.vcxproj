@@ -137,7 +137,9 @@
   <ItemGroup>
     <ClCompile Include="AddingFrame.cpp" />
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="SummingFrame.cpp" />
+    <ClCompile Include="DataFrame.cpp" />
+    <ClCompile Include="Products.cpp" />
+    <ClCompile Include="SummaryFrame.cpp" />
     <ClCompile Include="WelcomeFrame.cpp" />
   </ItemGroup>
   <ItemGroup>

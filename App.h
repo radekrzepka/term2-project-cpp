@@ -7,6 +7,7 @@ public:
 	wxString totalProtein = '0';
 	wxString totalCarbs = '0';
 	wxString totalFat = '0';
+	int productID{};
 };
 
 class App : public wxApp { // klasa App reprezentuje aplikacje

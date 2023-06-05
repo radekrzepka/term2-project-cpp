@@ -21,10 +21,16 @@
     <ClCompile Include="WelcomeFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SummingFrame.cpp">
+    <ClCompile Include="SummaryFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AddingFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Products.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
