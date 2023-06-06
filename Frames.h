@@ -1,5 +1,6 @@
 #pragma once
 #include <wx/wx.h>
+#include <wx/spinctrl.h>
 
 class WelcomeFrame : public wxFrame { // klasa okienka powitalnego
 public:
@@ -23,8 +24,16 @@ class DataFrame : public wxFrame {
 public:
 	DataFrame(const wxString& title);
 private:
+	wxSpinCtrl* weightSpinCtrl;
+	wxSpinCtrl* heightSpinCtrl;
+	wxSpinCtrl* ageSpinCtrl;
+	wxRadioBox* sexRadioBox;
+	wxRadioBox* targetRadioBox;
+	wxRadioBox* activityRadioBox;
 	void SetDisplay();
+	void Calculate();
 	void OnReturnButtonClick(wxCommandEvent& event);
+	void OnCalculateButtonClick(wxCommandEvent& event);
 };
 
 class AddingFrame : public wxFrame {
