@@ -31,7 +31,7 @@ private:
 	wxRadioBox* targetRadioBox;
 	wxRadioBox* activityRadioBox;
 	void SetDisplay();
-	void Calculate();
+	double Calculate();
 	void OnReturnButtonClick(wxCommandEvent& event);
 	void OnCalculateButtonClick(wxCommandEvent& event);
 };
