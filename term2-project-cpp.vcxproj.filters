@@ -27,7 +27,7 @@
     <ClCompile Include="AddingFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Products.cpp">
+    <ClCompile Include="Meal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DataFrame.cpp">
@@ -41,7 +41,10 @@
     <ClInclude Include="App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Products.h">
+    <ClInclude Include="Meal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -138,14 +138,15 @@
     <ClCompile Include="AddingFrame.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="DataFrame.cpp" />
-    <ClCompile Include="Products.cpp" />
+    <ClCompile Include="Meal.cpp" />
     <ClCompile Include="SummaryFrame.cpp" />
     <ClCompile Include="WelcomeFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="Frames.h" />
-    <ClInclude Include="Products.h" />
+    <ClInclude Include="Meal.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

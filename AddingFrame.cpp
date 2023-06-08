@@ -1,13 +1,27 @@
 #include "App.h"
 #include "Frames.h"
 #include <wx/wx.h>
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
 
 AddingFrame::AddingFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
 	wxPanel* addingFramePanel = new wxPanel(this, wxID_ANY);
 
+	wxStaticText* dateText = new wxStaticText(addingFramePanel, wxID_ANY, "Choose date: ", wxPoint(10, 50));
+	wxStaticText* mealText = new wxStaticText(addingFramePanel, wxID_ANY, "Choose meal: ", wxPoint(10, 75));
+	wxStaticText* macroText = new wxStaticText(addingFramePanel, wxID_ANY, "Enter macro", wxPoint(10, 100)); //text
+	wxStaticText* calorieText = new wxStaticText(addingFramePanel, wxID_ANY, "kcal: ", wxPoint(10, 125)); 
+	wxStaticText* proteinText = new wxStaticText(addingFramePanel, wxID_ANY, "protein: ", wxPoint(10, 150));
+	wxStaticText* carbsText = new wxStaticText(addingFramePanel, wxID_ANY, "carbs: ", wxPoint(10, 175));
+	wxStaticText* fatText = new wxStaticText(addingFramePanel, wxID_ANY, "fat: ", wxPoint(10, 200));
+
+	datePicker = new wxDatePickerCtrl(addingFramePanel, wxID_ANY, wxDefaultDateTime, wxPoint(85, 45), wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+	datePicker->SetValue(wxDateTime::Today());
+
 	wxButton* returnButton = new wxButton(addingFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30));
 
 	returnButton->Bind(wxEVT_BUTTON, &AddingFrame::OnReturnButtonClick, this);
+	datePicker->Bind(wxEVT_DATE_CHANGED, &AddingFrame::OnDateChanged, this);
 
 	this->SetDisplay();
 }
@@ -22,6 +36,11 @@ void AddingFrame::OnReturnButtonClick(wxCommandEvent& event)
 {
 	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 	Close();
+}
+
+void AddingFrame::OnDateChanged(wxDateEvent& event)
+{
+
 }
 
 //wxPanel* addingFramePanel = new wxPanel(this, wxID_ANY);

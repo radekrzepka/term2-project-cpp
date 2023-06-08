@@ -1,6 +1,10 @@
 #pragma once
+#include "Data.h"
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include <wx/wx.h>
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
 
 class WelcomeFrame : public wxFrame { // klasa okienka powitalnego
 public:
@@ -24,6 +28,7 @@ class DataFrame : public wxFrame {
 public:
 	DataFrame(const wxString& title);
 private:
+	Data* data;
 	wxSpinCtrl* weightSpinCtrl;
 	wxSpinCtrl* heightSpinCtrl;
 	wxSpinCtrl* ageSpinCtrl;
@@ -40,8 +45,10 @@ class AddingFrame : public wxFrame {
 public:
 	AddingFrame(const wxString& title);
 private:
+	wxDatePickerCtrl* datePicker;
 	void SetDisplay();
 	void OnReturnButtonClick(wxCommandEvent& event);
+	void OnDateChanged(wxDateEvent& event);
 };
 
 //class SummingFrame : public wxFrame { // klasa okienka sumujacego wartosci odzywcze
