@@ -23,6 +23,8 @@ Database::Database(const std::string& server, const std::string& username, const
         connection = driver->connect(server, username, password);
     }
     catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
     }
 }
 
