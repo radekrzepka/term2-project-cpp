@@ -6,7 +6,9 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 #include <cppconn/exception.h>
+
 #include "Meal.h"
+#include "Data.h"
 
 class Database {
 private:
@@ -17,4 +19,5 @@ public:
     Database(const std::string& server, const std::string& username, const std::string& password);
     ~Database();
     bool insertMeal (const Meal&, int userId);
+    bool updateUserData(const Data&, int userId);
 };

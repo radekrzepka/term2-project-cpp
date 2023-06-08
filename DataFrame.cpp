@@ -3,13 +3,13 @@
 #include "App.h"
 #include "Frames.h"
 #include "Data.h"
+#include "Database.h"
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
 
 DataFrame::DataFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) { //konstruktor frame'u z danymi
-
 	wxPanel* dataFramePanel = new wxPanel(this, wxID_ANY); // panel
 
 	wxButton* returnButton = new wxButton(dataFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30)); //button powrotu
@@ -61,9 +61,9 @@ void DataFrame::SetDisplay() {
 	this->Show();
 }
 
-double DataFrame::Calculate()
-{
-	data = new Data;
+void DataFrame::Calculate() {
+	data = new Data();
+
 	data->weight = weightSpinCtrl->GetValue(); //odczytanie wagi
 	data->height = heightSpinCtrl->GetValue(); //wzrost
 	data->age = ageSpinCtrl->GetValue(); //wiek
@@ -103,7 +103,7 @@ double DataFrame::Calculate()
 		break;
 	}
 
-	return result;
+	data->calorieTarget = result;
 }
 
 void DataFrame::OnReturnButtonClick(wxCommandEvent& event)
@@ -114,8 +114,15 @@ void DataFrame::OnReturnButtonClick(wxCommandEvent& event)
 
 void DataFrame::OnCalculateButtonClick(wxCommandEvent& event)
 {
-	wxString calorieIntake = wxString::Format(wxT("%.2f"), Calculate()); //metoda calculate zwraca obliczone zapotrzebowanie energetyczne
-	wxMessageBox(calorieIntake);
+	Database* db = new Database("127.0.0.1", "root", "");
+	Calculate();
+	db->updateUserData(*data, 1);
+
+	wxString messageBox = wxString("Dane zostaly zaaktualizowane");
+	wxMessageBox(messageBox);
+
+	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
+	Close();
 }
 
 

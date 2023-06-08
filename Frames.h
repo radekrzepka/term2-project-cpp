@@ -31,6 +31,7 @@ private:
 class DataFrame : public wxFrame {
 public:
 	DataFrame(const wxString& title);
+	
 private:
 	Data* data;
 	wxSpinCtrl* weightSpinCtrl;
@@ -40,7 +41,7 @@ private:
 	wxRadioBox* targetRadioBox;
 	wxRadioBox* activityRadioBox;
 	void SetDisplay();
-	double Calculate();
+	void Calculate();
 	void OnReturnButtonClick(wxCommandEvent& event);
 	void OnCalculateButtonClick(wxCommandEvent& event);
 };

@@ -82,6 +82,9 @@ void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 	Database* db = new Database("127.0.0.1", "root", "");
 	db->insertMeal(*meal,1);
 
+	wxString messageBox = wxString("Dodano danie");
+	wxMessageBox(messageBox);
+
 	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 	Close();
 }
