@@ -18,13 +18,13 @@ DataFrame::DataFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	wxStaticText* chooseTargetText = new wxStaticText(dataFramePanel, wxID_ANY, "Target:", wxPoint(10, 153));
 	wxStaticText* chooseActivityText = new wxStaticText(dataFramePanel, wxID_ANY, "Activity:", wxPoint(10, 181));
 
-	weightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "75", wxPoint(80, 45), wxSize(100, -1)); //spinctrl dla wagi i wzrostu
+	weightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "75", wxPoint(85, 45), wxSize(100, -1)); //spinctrl dla wagi i wzrostu
 	weightSpinCtrl->SetRange(40, 120);
 
-	heightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "175", wxPoint(80, 70), wxSize(100, -1));
+	heightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "175", wxPoint(85, 70), wxSize(100, -1));
 	heightSpinCtrl->SetRange(150, 210);
 
-	ageSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "18", wxPoint(80, 95), wxSize(100, -1));
+	ageSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "18", wxPoint(85, 95), wxSize(100, -1));
 	ageSpinCtrl->SetRange(10, 99);
 
 	wxArrayString sexChoices;

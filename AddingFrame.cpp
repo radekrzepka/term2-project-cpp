@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Frames.h"
+#include "Meal.h"
 #include <wx/wx.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
@@ -7,21 +8,46 @@
 AddingFrame::AddingFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
 	wxPanel* addingFramePanel = new wxPanel(this, wxID_ANY);
 
-	wxStaticText* dateText = new wxStaticText(addingFramePanel, wxID_ANY, "Choose date: ", wxPoint(10, 50));
-	wxStaticText* mealText = new wxStaticText(addingFramePanel, wxID_ANY, "Choose meal: ", wxPoint(10, 75));
-	wxStaticText* macroText = new wxStaticText(addingFramePanel, wxID_ANY, "Enter macro", wxPoint(10, 100)); //text
-	wxStaticText* calorieText = new wxStaticText(addingFramePanel, wxID_ANY, "kcal: ", wxPoint(10, 125)); 
-	wxStaticText* proteinText = new wxStaticText(addingFramePanel, wxID_ANY, "protein: ", wxPoint(10, 150));
-	wxStaticText* carbsText = new wxStaticText(addingFramePanel, wxID_ANY, "carbs: ", wxPoint(10, 175));
-	wxStaticText* fatText = new wxStaticText(addingFramePanel, wxID_ANY, "fat: ", wxPoint(10, 200));
+	wxStaticText* nameText = new wxStaticText(addingFramePanel, wxID_ANY, "Enter name: ", wxPoint(10, 50));
+	wxStaticText* dateText = new wxStaticText(addingFramePanel, wxID_ANY, "Choose date: ", wxPoint(10, 80));
+	wxStaticText* mealText = new wxStaticText(addingFramePanel, wxID_ANY, "Choose meal: ", wxPoint(10, 110));
+	wxStaticText* macroText = new wxStaticText(addingFramePanel, wxID_ANY, "Enter macro", wxPoint(10, 140)); //text
+	wxStaticText* calorieText = new wxStaticText(addingFramePanel, wxID_ANY, "kcal: ", wxPoint(10, 170)); 
+	wxStaticText* proteinText = new wxStaticText(addingFramePanel, wxID_ANY, "protein: ", wxPoint(10, 200));
+	wxStaticText* carbsText = new wxStaticText(addingFramePanel, wxID_ANY, "carbs: ", wxPoint(10, 230));
+	wxStaticText* fatText = new wxStaticText(addingFramePanel, wxID_ANY, "fat: ", wxPoint(10, 260));
 
-	datePicker = new wxDatePickerCtrl(addingFramePanel, wxID_ANY, wxDefaultDateTime, wxPoint(85, 45), wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+	nameTextCtrl = new wxTextCtrl(addingFramePanel, wxID_ANY, "name", wxPoint(85, 45), wxSize(100, -1));
+
+	datePicker = new wxDatePickerCtrl(addingFramePanel, wxID_ANY, wxDefaultDateTime, wxPoint(85, 75), wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
 	datePicker->SetValue(wxDateTime::Today());
+
+	typeChoice = new wxChoice(addingFramePanel, wxID_ANY, wxPoint(85, 105), wxSize(100, -1));
+	typeChoice->Append("breakfast");
+	typeChoice->Append("snack I");
+	typeChoice->Append("lunch");
+	typeChoice->Append("snack II");
+	typeChoice->Append("dinner");
+	typeChoice->SetSelection(0);
+
+	kcalSpinCtrl = new wxSpinCtrl(addingFramePanel, wxID_ANY, "", wxPoint(85, 165), wxSize(100, -1));
+	kcalSpinCtrl->SetRange(1, 900);
+
+	proteinSpinCtrl = new wxSpinCtrl(addingFramePanel, wxID_ANY, "", wxPoint(85, 195), wxSize(100, -1));
+	proteinSpinCtrl->SetRange(1, 100);
+
+	carbsSpinCtrl = new wxSpinCtrl(addingFramePanel, wxID_ANY, "", wxPoint(85, 225), wxSize(100, -1));
+	carbsSpinCtrl->SetRange(1, 100);
+
+	fatSpinCtrl = new wxSpinCtrl(addingFramePanel, wxID_ANY, "", wxPoint(85, 255), wxSize(100, -1));
+	fatSpinCtrl->SetRange(1, 100);
 
 	wxButton* returnButton = new wxButton(addingFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30));
 
+	wxButton* addButton = new wxButton(addingFramePanel, wxID_ANY, "Add", wxPoint(10, 290), wxSize(75, 30));
+
 	returnButton->Bind(wxEVT_BUTTON, &AddingFrame::OnReturnButtonClick, this);
-	datePicker->Bind(wxEVT_DATE_CHANGED, &AddingFrame::OnDateChanged, this);
+	addButton->Bind(wxEVT_BUTTON, &AddingFrame::OnAddButtonClick, this);
 
 	this->SetDisplay();
 }
@@ -38,52 +64,13 @@ void AddingFrame::OnReturnButtonClick(wxCommandEvent& event)
 	Close();
 }
 
-void AddingFrame::OnDateChanged(wxDateEvent& event)
+void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 {
-
+	meal = new Meal;
+	meal->name = nameTextCtrl->GetValue();
+	meal->kcal = kcalSpinCtrl->GetValue();
+	meal->protein = proteinSpinCtrl->GetValue();
+	meal->carbs = carbsSpinCtrl->GetValue();
+	meal->fat = fatSpinCtrl->GetValue();
+	meal->type = typeChoice->GetSelection();
 }
-
-//wxPanel* addingFramePanel = new wxPanel(this, wxID_ANY);
-//wxButton* submitAddingButton = new wxButton(addingFramePanel, wxID_ANY, "Submit", wxPoint(250, 50), wxSize(100, 100)); // button wprowadzajacy posilek do aplikacji
-//wxStaticText* inputNameText = new wxStaticText(addingFramePanel, wxID_ANY, "Name:", wxPoint(5, 10)); // tekst
-//wxStaticText* inputCaloriesText = new wxStaticText(addingFramePanel, wxID_ANY, "Calories:", wxPoint(5, 40)); // tekst
-//wxStaticText* inputProteinText = new wxStaticText(addingFramePanel, wxID_ANY, "Protein:", wxPoint(5, 70)); // tekst
-//wxStaticText* inputCarbsText = new wxStaticText(addingFramePanel, wxID_ANY, "Carbs:", wxPoint(5, 100)); // tekst
-//wxStaticText* inputFatText = new wxStaticText(addingFramePanel, wxID_ANY, "Fat:", wxPoint(5, 130)); // tekst
-//nameInput = new wxTextCtrl(addingFramePanel, wxID_ANY, "", wxPoint(55, 5), wxSize(100, -1));
-//caloriesInput = new wxTextCtrl(addingFramePanel, wxID_ANY, "", wxPoint(55, 35), wxSize(100, -1));
-//proteinInput = new wxTextCtrl(addingFramePanel, wxID_ANY, "", wxPoint(55, 65), wxSize(100, -1));
-//carbsInput = new wxTextCtrl(addingFramePanel, wxID_ANY, "", wxPoint(55, 95), wxSize(100, -1));
-//fatInput = new wxTextCtrl(addingFramePanel, wxID_ANY, "", wxPoint(55, 125), wxSize(100, -1));
-//submitAddingButton->Bind(wxEVT_BUTTON, &AddingFrame::OnSubmitButtonClick, this);
-
-//void AddingFrame::OnSubmitButtonClick(wxCommandEvent& event) {
-//	nameStr = nameInput->GetValue();
-//	caloriesStr = caloriesInput->GetValue();
-//	proteinStr = proteinInput->GetValue();
-//	carbsStr = carbsInput->GetValue();
-//	fatStr = fatInput->GetValue();
-//	Product product(nameStr, caloriesStr, proteinStr, carbsStr, fatStr);
-//	ConvertAndAdd(values.totalCalories, caloriesStr);
-//	ConvertAndAdd(values.totalProtein, proteinStr);
-//	ConvertAndAdd(values.totalCarbs, carbsStr);
-//	ConvertAndAdd(values.totalFat, fatStr);
-//	summingFrame->GetUpdate(summingFrame->totalCaloriesAmount, values.totalCalories);
-//	summingFrame->GetUpdate(summingFrame->totalProteinAmount, values.totalProtein);               // todo przeniesc to do innej metody bo gowno jebane
-//	summingFrame->GetUpdate(summingFrame->totalCarbsAmount, values.totalCarbs);
-//	summingFrame->GetUpdate(summingFrame->totalFatAmount, values.totalFat);
-//	summingFrame->isAddingFrameOpen = false;
-//	Close();
-//}
-//
-//void AddingFrame::ConvertAndAdd(wxString& final, wxString added)
-//{
-//	int a{}, b{}, c{};
-//	wxString result;
-//	added.ToInt(&a);
-//	final.ToInt(&b);
-//	c = a + b;
-//	result = wxString::Format("%d", c);
-//	final = result;
-//}
-
