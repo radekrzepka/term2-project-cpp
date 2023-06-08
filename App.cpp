@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS 
+
 #include "App.h"
 #include "Frames.h"
 #include "wx/wx.h"

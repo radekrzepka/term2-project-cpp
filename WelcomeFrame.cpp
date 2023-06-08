@@ -1,5 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS 
+
 #include "App.h"
 #include "Frames.h"
+
 #include <wx/wx.h>
 
 WelcomeFrame::WelcomeFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {

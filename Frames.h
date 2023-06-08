@@ -1,4 +1,7 @@
 #pragma once
+
+#define _CRT_SECURE_NO_WARNINGS 
+
 #include "Data.h"
 #include "Meal.h"
 #include <wx/wx.h>

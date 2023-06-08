@@ -3,6 +3,6 @@
 
 class Data {
 public:
-	double weight{}, height{};
-	int age{}, sex{}, target{}, activity{};
+	double weight, height;
+	int age, sex, target, activity;
 };

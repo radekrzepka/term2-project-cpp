@@ -1,6 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS 
+
 #include "App.h"
 #include "Frames.h"
 #include "Meal.h"
+#include "Database.h"
+
 #include <wx/wx.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
@@ -66,11 +70,18 @@ void AddingFrame::OnReturnButtonClick(wxCommandEvent& event)
 
 void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 {
-	meal = new Meal;
+	Meal* meal = new Meal;
 	meal->name = nameTextCtrl->GetValue();
 	meal->kcal = kcalSpinCtrl->GetValue();
 	meal->protein = proteinSpinCtrl->GetValue();
 	meal->carbs = carbsSpinCtrl->GetValue();
 	meal->fat = fatSpinCtrl->GetValue();
 	meal->type = typeChoice->GetSelection();
+	meal->date = datePicker->GetValue();
+
+	Database* db = new Database("127.0.0.1", "root", "");
+	db->insertMeal(*meal,1);
+
+	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
+	Close();
 }

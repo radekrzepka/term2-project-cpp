@@ -1,6 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS 
+
 #include "App.h"
 #include "Frames.h"
 #include "Data.h"
+
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
