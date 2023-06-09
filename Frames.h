@@ -24,14 +24,18 @@ class SummaryFrame : public wxFrame {
 public:
 	SummaryFrame(const wxString& title);
 private:
+	int delay = 40;
+	wxPanel* summaryFramePanel;
+	wxDatePickerCtrl* datePicker;
 	void SetDisplay();
+	void AddMealBox();
 	void OnReturnButtonClick(wxCommandEvent& event);
+	void OnDateChanged(wxDateEvent& event);
 };
 
 class DataFrame : public wxFrame {
 public:
 	DataFrame(const wxString& title);
-	
 private:
 	Data* data;
 	wxSpinCtrl* weightSpinCtrl;
@@ -59,6 +63,7 @@ private:
 	wxSpinCtrl* carbsSpinCtrl;
 	wxSpinCtrl* fatSpinCtrl;
 	void SetDisplay();
+	bool validate();
 	void OnReturnButtonClick(wxCommandEvent& event);
 	void OnAddButtonClick(wxCommandEvent& event);
 };

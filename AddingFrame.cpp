@@ -62,6 +62,28 @@ void AddingFrame::SetDisplay() {
 	this->Show();
 }
 
+bool AddingFrame::validate()
+{
+	wxString str = nameTextCtrl->GetValue();
+	int l = str.length();
+	int protein = proteinSpinCtrl->GetValue();
+	int carbs = carbsSpinCtrl->GetValue();
+	int fat = fatSpinCtrl->GetValue();
+	if (l > 60) {
+		wxMessageBox("Name is too long!");
+		return false;
+	}
+	else {
+		if ((protein+carbs+fat)<101) {
+			return true;
+		}
+		else {
+			wxMessageBox("Macroelements are wrong!");
+			return false;
+		}
+	}
+}
+
 void AddingFrame::OnReturnButtonClick(wxCommandEvent& event)
 {
 	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
@@ -70,21 +92,23 @@ void AddingFrame::OnReturnButtonClick(wxCommandEvent& event)
 
 void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 {
-	Meal* meal = new Meal;
-	meal->name = nameTextCtrl->GetValue();
-	meal->kcal = kcalSpinCtrl->GetValue();
-	meal->protein = proteinSpinCtrl->GetValue();
-	meal->carbs = carbsSpinCtrl->GetValue();
-	meal->fat = fatSpinCtrl->GetValue();
-	meal->type = typeChoice->GetSelection();
-	meal->date = datePicker->GetValue();
+	if (validate() == true) {
+		Meal* meal = new Meal;
+		meal->name = nameTextCtrl->GetValue();
+		meal->kcal = kcalSpinCtrl->GetValue();
+		meal->protein = proteinSpinCtrl->GetValue();
+		meal->carbs = carbsSpinCtrl->GetValue();
+		meal->fat = fatSpinCtrl->GetValue();
+		meal->type = typeChoice->GetSelection();
+		meal->date = datePicker->GetValue();
 
-	Database* db = new Database("127.0.0.1", "root", "");
-	db->insertMeal(*meal,1);
+		Database* db = new Database("127.0.0.1", "root", "");
+		db->insertMeal(*meal, 1);
 
-	wxString messageBox = wxString("Dodano danie");
-	wxMessageBox(messageBox);
+		wxString messageBox = wxString("Meal added.");
+		wxMessageBox(messageBox);
 
-	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
-	Close();
+		WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
+		Close();
+	}
 }

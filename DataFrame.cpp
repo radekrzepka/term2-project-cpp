@@ -118,11 +118,9 @@ void DataFrame::OnCalculateButtonClick(wxCommandEvent& event)
 	Calculate();
 	db->updateUserData(*data, 1);
 
-	wxString messageBox = wxString("Dane zostaly zaaktualizowane");
+	wxString messageBox = wxString("Data has been updated.");
 	wxMessageBox(messageBox);
 
 	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 	Close();
 }
-
-
