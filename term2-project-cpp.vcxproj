@@ -146,12 +146,12 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DataFrame.cpp" />
-    <ClCompile Include="Meal.cpp" />
     <ClCompile Include="SummaryFrame.cpp" />
     <ClCompile Include="WelcomeFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="UserTargets.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Frames.h" />

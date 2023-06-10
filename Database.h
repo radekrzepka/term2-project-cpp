@@ -9,6 +9,7 @@
 
 #include "Meal.h"
 #include "Data.h"
+#include "UserTargets.h"
 
 class Database {
 private:
@@ -18,6 +19,8 @@ private:
 public:
     Database(const std::string& server, const std::string& username, const std::string& password);
     ~Database();
-    bool insertMeal (const Meal&, int userId);
-    bool updateUserData(const Data&, int userId);
+    bool insertMeal (const Meal&,const int userId);
+    bool updateUserData(const Data&, const int userId);
+    std::vector<Meal> getMealsByDate(const std::string& date, const int userId);
+    UserTargets getUserTargets(const int userId);
 };

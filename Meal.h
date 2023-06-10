@@ -14,4 +14,5 @@ public:
 	int fat;
 	wxDateTime date;
 	int type;
+	std::string typeString;
 };

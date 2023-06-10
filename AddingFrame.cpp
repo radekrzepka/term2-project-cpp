@@ -10,6 +10,7 @@
 #include <wx/dateevt.h>
 
 AddingFrame::AddingFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
+	db = new Database("127.0.0.1", "root", "");
 	wxPanel* addingFramePanel = new wxPanel(this, wxID_ANY);
 
 	wxStaticText* nameText = new wxStaticText(addingFramePanel, wxID_ANY, "Enter name: ", wxPoint(10, 50));
@@ -102,11 +103,12 @@ void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 		meal->type = typeChoice->GetSelection();
 		meal->date = datePicker->GetValue();
 
-		Database* db = new Database("127.0.0.1", "root", "");
 		db->insertMeal(*meal, 1);
 
 		wxString messageBox = wxString("Meal added.");
 		wxMessageBox(messageBox);
+
+		delete db;
 
 		WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 		Close();

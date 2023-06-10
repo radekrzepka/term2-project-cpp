@@ -2,43 +2,22 @@
 
 #include "App.h"
 #include "Frames.h"
+#include "Database.h"
+#include "Meal.h"
+#include "UserTargets.h"
 
 #include <wx/wx.h>
 
 SummaryFrame::SummaryFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title) {
+	db = new Database("127.0.0.1", "root", "");
+	userTargets = db->getUserTargets(1);
+
 	summaryFramePanel = new wxPanel(this, wxID_ANY);
-
-	wxStaticText* summaryText = new wxStaticText(summaryFramePanel, wxID_ANY, "Summary for: ", wxPoint(315, 25)); //main text
-
-	wxStaticText* totalKcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "kcal: ", wxPoint(140, 60));
-	wxStaticText* totalProteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "protein: ", wxPoint(290, 60)); //text
-	wxStaticText* totalCarbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "carbs: ", wxPoint(440, 60));
-	wxStaticText* totalFatText = new wxStaticText(summaryFramePanel, wxID_ANY, "fat: ", wxPoint(590, 60));
-
-	wxStaticText* realKcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "9999", wxPoint(170, 60));
-	wxStaticText* realProteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "999", wxPoint(335, 60)); //realtext
-	wxStaticText* realCarbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "999", wxPoint(475, 60));
-	wxStaticText* realFatText = new wxStaticText(summaryFramePanel, wxID_ANY, "999", wxPoint(615, 60));
-
-	wxStaticText* slashKcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "/", wxPoint(195, 60));
-	wxStaticText* slashProteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "/", wxPoint(355, 60)); //slash
-	wxStaticText* slashCarbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "/", wxPoint(495, 60));
-	wxStaticText* slashFatText = new wxStaticText(summaryFramePanel, wxID_ANY, "/", wxPoint(635, 60));
-
-	wxStaticText* maxKcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "9999", wxPoint(200, 60));
-	wxStaticText* maxProteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "999", wxPoint(360, 60)); //maxtext
-	wxStaticText* maxCarbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "999", wxPoint(500, 60));
-	wxStaticText* maxFatText = new wxStaticText(summaryFramePanel, wxID_ANY, "999", wxPoint(640, 60));
-
-	wxStaticText* typeText = new wxStaticText(summaryFramePanel, wxID_ANY, "type:", wxPoint(120, 100));
-	wxStaticText* nameText = new wxStaticText(summaryFramePanel, wxID_ANY, "name:", wxPoint(220, 100));
-	wxStaticText* kcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "kcal:", wxPoint(320, 100));
-	wxStaticText* proteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "protein:", wxPoint(420, 100)); //tabela
-	wxStaticText* carbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "carbs:", wxPoint(520, 100));
-	wxStaticText* fatText = new wxStaticText(summaryFramePanel, wxID_ANY, "fat:", wxPoint(620, 100));
 
 	datePicker = new wxDatePickerCtrl(summaryFramePanel, wxID_ANY, wxDefaultDateTime, wxPoint(390, 20), wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
 	datePicker->SetValue(wxDateTime::Today());
+
+	AddMealBox();
 
 	wxButton* returnButton = new wxButton(summaryFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30));
 
@@ -56,13 +35,52 @@ void SummaryFrame::SetDisplay() {
 
 void SummaryFrame::AddMealBox()
 {
-	wxStaticText* typeText = new wxStaticText(summaryFramePanel, wxID_ANY, "breakfast", wxPoint(120, 100+delay));
-	wxStaticText* nameText = new wxStaticText(summaryFramePanel, wxID_ANY, "name", wxPoint(220, 100+delay));
-	wxStaticText* kcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "100", wxPoint(320, 100 + delay));
-	wxStaticText* proteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "23", wxPoint(420, 100 + delay)); //tabela
-	wxStaticText* carbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "123", wxPoint(520, 100 + delay));
-	wxStaticText* fatText = new wxStaticText(summaryFramePanel, wxID_ANY, "3", wxPoint(620, 100 + delay));
-	delay += 20;
+	wxDateTime selectedDate = datePicker->GetValue();
+	std::string dateString = selectedDate.Format("%Y-%m-%d").ToStdString();
+	std::vector<Meal> meals = db->getMealsByDate(dateString, 1);
+
+	int caloriesSum = 0, carboSum = 0, proteinsSum = 0, fatsSum = 0;
+
+	// Clear old data
+	wxWindowList& children = summaryFramePanel->GetChildren();
+	for (auto child : children) {
+		if (child->IsKindOf(CLASSINFO(wxStaticText))) {
+			summaryFramePanel->RemoveChild(child);
+			child->Destroy();
+		}
+	}
+
+	wxStaticText* typeText = new wxStaticText(summaryFramePanel, wxID_ANY, "type:", wxPoint(120, 100));
+	wxStaticText* nameText = new wxStaticText(summaryFramePanel, wxID_ANY, "name:", wxPoint(220, 100));
+	wxStaticText* kcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "kcal:", wxPoint(320, 100));
+	wxStaticText* proteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "protein:", wxPoint(420, 100)); //tabela
+	wxStaticText* carbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "carbs:", wxPoint(520, 100));
+	wxStaticText* fatText = new wxStaticText(summaryFramePanel, wxID_ANY, "fat:", wxPoint(620, 100));
+
+	delay = 40;
+
+	for (Meal& meal : meals) {
+		wxStaticText* typeText = new wxStaticText(summaryFramePanel, wxID_ANY, meal.typeString, wxPoint(120, 100 + delay));
+		wxStaticText* nameText = new wxStaticText(summaryFramePanel, wxID_ANY, meal.name, wxPoint(220, 100 + delay));
+		wxStaticText* kcalText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.kcal), wxPoint(320, 100 + delay));
+		wxStaticText* proteinText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.protein), wxPoint(420, 100 + delay)); //tabela
+		wxStaticText* carbsText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.carbs), wxPoint(520, 100 + delay));
+		wxStaticText* fatText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.fat), wxPoint(620, 100 + delay));
+
+		caloriesSum += meal.kcal;
+		carboSum += meal.carbs;
+		proteinsSum += meal.protein;
+		fatsSum += meal.fat;
+
+		delay += 20;
+	}
+
+	wxStaticText* summaryText = new wxStaticText(summaryFramePanel, wxID_ANY, "Summary for: ", wxPoint(315, 25)); //main text
+
+	wxStaticText* totalKcalText = new wxStaticText(summaryFramePanel, wxID_ANY, "kcal: " + std::to_string(caloriesSum) + "/" + std::to_string(userTargets.caloriesTarget), wxPoint(140, 60));
+	wxStaticText* totalProteinText = new wxStaticText(summaryFramePanel, wxID_ANY, "protein: " + std::to_string(proteinsSum) + "/" + std::to_string(userTargets.proteinsTarget), wxPoint(290, 60)); //text
+	wxStaticText* totalCarbsText = new wxStaticText(summaryFramePanel, wxID_ANY, "carbs: " + std::to_string(carboSum) + "/" + std::to_string(userTargets.carbsTarget), wxPoint(440, 60));
+	wxStaticText* totalFatText = new wxStaticText(summaryFramePanel, wxID_ANY, "fat: " + std::to_string(fatsSum) + "/" + std::to_string(userTargets.fatsTarget), wxPoint(590, 60));
 }
 
 void SummaryFrame::OnReturnButtonClick(wxCommandEvent& event)
@@ -73,7 +91,6 @@ void SummaryFrame::OnReturnButtonClick(wxCommandEvent& event)
 
 void SummaryFrame::OnDateChanged(wxDateEvent& event)
 {
-	wxMessageBox("Date changed");
 	AddMealBox();
 	Refresh();
 }

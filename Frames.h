@@ -4,6 +4,8 @@
 
 #include "Data.h"
 #include "Meal.h"
+#include "Database.h"
+#include "UserTargets.h"
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
@@ -24,6 +26,8 @@ class SummaryFrame : public wxFrame {
 public:
 	SummaryFrame(const wxString& title);
 private:
+	Database* db;
+	UserTargets userTargets;
 	int delay = 40;
 	wxPanel* summaryFramePanel;
 	wxDatePickerCtrl* datePicker;
@@ -37,6 +41,7 @@ class DataFrame : public wxFrame {
 public:
 	DataFrame(const wxString& title);
 private:
+	Database* db;
 	Data* data;
 	wxSpinCtrl* weightSpinCtrl;
 	wxSpinCtrl* heightSpinCtrl;
@@ -54,6 +59,7 @@ class AddingFrame : public wxFrame {
 public:
 	AddingFrame(const wxString& title);
 private:
+	Database* db;
 	Meal* meal;
 	wxTextCtrl* nameTextCtrl;
 	wxDatePickerCtrl* datePicker;

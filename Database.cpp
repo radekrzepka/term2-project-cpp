@@ -32,7 +32,7 @@ Database::~Database() {
     delete connection;
 }
 
-bool Database::insertMeal(const Meal& meal, int userId) {
+bool Database::insertMeal(const Meal& meal,const int userId) {
     try {
         connection->setSchema("term2-project-cpp");
 
@@ -78,12 +78,12 @@ bool Database::insertMeal(const Meal& meal, int userId) {
     }
 }
 
-bool Database::updateUserData(const Data& data, int userId)
+bool Database::updateUserData(const Data& data,const int userId)
 {
     try {
         connection->setSchema("term2-project-cpp");
 
-        sql::PreparedStatement* preparedStatement = connection->prepareStatement("UPDATE `users` SET `sex` = ?,`height` = ?,`weight` = ?,`target` = ?,`age` = ?,`activity` = ?,`calorie_target` = ? WHERE `id` = ?"); 
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("UPDATE `users` SET `sex` = ?,`height` = ?,`weight` = ?,`target` = ?,`age` = ?,`activity` = ?,`calorie_target` = ?, `carbs_target` = ?, `proteins_target` = ?, `fats_target` = ? WHERE `id` = ?"); 
 
         switch (data.sex) {
         case 0:
@@ -123,8 +123,11 @@ bool Database::updateUserData(const Data& data, int userId)
             break;
         }
 
-        preparedStatement->setInt(7, data.calorieTarget);
-        preparedStatement->setInt(8, userId);
+        preparedStatement->setInt(7, data.usertargets.caloriesTarget);
+        preparedStatement->setInt(8, data.usertargets.carbsTarget);
+        preparedStatement->setInt(9, data.usertargets.proteinsTarget);
+        preparedStatement->setInt(10, data.usertargets.fatsTarget);
+        preparedStatement->setInt(11, userId);
 
         preparedStatement->execute();
         delete preparedStatement;
@@ -135,4 +138,72 @@ bool Database::updateUserData(const Data& data, int userId)
         wxMessageBox(error);
         return false;
     }
+}
+
+std::vector<Meal> Database::getMealsByDate(const std::string& date, const int userId) {
+    std::vector<Meal> meals;
+
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("SELECT * FROM `meals` WHERE `day` = ? AND `user_id` = ?");
+        preparedStatement->setString(1, date);
+        preparedStatement->setInt(2, userId);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        while (resultSet->next()) {
+            Meal meal;
+            meal.name = wxString(resultSet->getString("name").c_str(), wxConvUTF8);
+            meal.date = wxDateTime::Now();
+            meal.date.ParseDate(resultSet->getString("day").c_str());
+            meal.typeString = resultSet->getString("type");
+
+            meal.kcal = resultSet->getInt("calories");
+            meal.carbs = resultSet->getInt("carbohydrates");
+            meal.protein = resultSet->getInt("proteins");
+            meal.fat = resultSet->getInt("fats");
+
+            meals.push_back(meal);
+        }
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+    }
+
+    return meals;
+}
+
+UserTargets Database::getUserTargets(const int userId)
+{
+    UserTargets userTargets;
+
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("SELECT * FROM `users` WHERE `id` = ?");
+        preparedStatement->setInt(1, userId);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        while (resultSet->next()) {
+            userTargets.caloriesTarget = resultSet->getInt("calorie_target");
+            userTargets.carbsTarget = resultSet->getInt("carbs_target");
+            userTargets.proteinsTarget = resultSet->getInt("proteins_target");
+            userTargets.fatsTarget = resultSet->getInt("fats_target");
+        }
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        //wxString error = wxString::Format(e.what());
+        //wxMessageBox(error);
+    }
+
+    return userTargets;
 }

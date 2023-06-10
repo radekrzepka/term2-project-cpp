@@ -10,6 +10,7 @@
 #include <wx/tglbtn.h>
 
 DataFrame::DataFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) { //konstruktor frame'u z danymi
+	db = new Database("127.0.0.1", "root", "");
 	wxPanel* dataFramePanel = new wxPanel(this, wxID_ANY); // panel
 
 	wxButton* returnButton = new wxButton(dataFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30)); //button powrotu
@@ -103,7 +104,10 @@ void DataFrame::Calculate() {
 		break;
 	}
 
-	data->calorieTarget = result;
+	data->usertargets.caloriesTarget = result;
+	data->usertargets.proteinsTarget = result / 4 * 0.3;
+	data->usertargets.fatsTarget = result / 9 * 0.2;
+	data->usertargets.carbsTarget = result / 4 * 0.5;
 }
 
 void DataFrame::OnReturnButtonClick(wxCommandEvent& event)
