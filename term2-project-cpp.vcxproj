@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Libraries\OpenSSL-Win64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Libraries\OpenSSL-Win64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -130,15 +130,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>STATIC_CONCPP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Libraries\wxWidgets-3.2.2.1\include;C:\Libraries\wxWidgets-3.2.2.1\include\msvc;C:\Libraries\mysql-c++-8.0.33\include\jdbc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Libraries\wxWidgets-3.2.2.1\include;C:\Libraries\wxWidgets-3.2.2.1\include\msvc;C:\Libraries\mysql-c++-8.0.33\include\jdbc;C:\Libraries\openssl-3.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Libraries\wxWidgets-3.2.2.1\lib\vc_x64_lib;C:\Libraries\mysql-c++-8.0.33\lib64\vs14</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mysqlcppconn-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Libraries\wxWidgets-3.2.2.1\lib\vc_x64_lib;C:\Libraries\mysql-c++-8.0.33\lib64\vs14;C:\Libraries\openssl-3.1.1\apps\lib;C:\Libraries\OpenSSL-Win64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn-static.lib;libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -146,6 +146,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DataFrame.cpp" />
+    <ClCompile Include="LoginFrame.cpp" />
     <ClCompile Include="SummaryFrame.cpp" />
     <ClCompile Include="WelcomeFrame.cpp" />
   </ItemGroup>

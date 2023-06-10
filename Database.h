@@ -23,4 +23,6 @@ public:
     bool updateUserData(const Data&, const int userId);
     std::vector<Meal> getMealsByDate(const std::string& date, const int userId);
     UserTargets getUserTargets(const int userId);
+    bool checkIfNameInDb(const std::string& name);
+    bool insertUser(const std::string& name, const std::string& password);
 };

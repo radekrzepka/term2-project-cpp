@@ -7,6 +7,7 @@
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
-	WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories"); // otwarcie okienka powitalnego 
+	LoginFrame* loginFrame = new LoginFrame("Log in or register");
+	//WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 	return true;
 }

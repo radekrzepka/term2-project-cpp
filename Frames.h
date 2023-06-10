@@ -12,6 +12,20 @@
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 
+class LoginFrame : public wxFrame {
+public:
+	LoginFrame(const wxString& title);
+private:
+	Database* db;
+	void SetDisplay();
+	wxTextCtrl* loginName;
+	wxTextCtrl* loginPassword;
+	wxTextCtrl* registerName;
+	wxTextCtrl* registerPassword;
+	void OnLoginButtonClick(wxCommandEvent& event);
+	void OnRegisterClick(wxCommandEvent& event);
+};
+
 class WelcomeFrame : public wxFrame { // klasa okienka powitalnego
 public:
 	WelcomeFrame(const wxString& title);

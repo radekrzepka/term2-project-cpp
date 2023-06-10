@@ -23,8 +23,9 @@ Database::Database(const std::string& server, const std::string& username, const
         connection = driver->connect(server, username, password);
     }
     catch (sql::SQLException& e) {
-        wxString error = wxString::Format(e.what());
-        wxMessageBox(error);
+        wxString error = wxString("Error when connecting to the database. The application will now terminate.");
+        wxMessageBox(error, "Error", wxOK | wxICON_ERROR);
+        wxTheApp->Exit();
     }
 }
 
@@ -201,9 +202,57 @@ UserTargets Database::getUserTargets(const int userId)
         delete preparedStatement;
     }
     catch (sql::SQLException& e) {
-        //wxString error = wxString::Format(e.what());
-        //wxMessageBox(error);
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
     }
 
     return userTargets;
+}
+
+bool Database::checkIfNameInDb(const std::string& name)
+{
+    bool userInDb = false;
+
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("SELECT * FROM `users` WHERE `name` = ?");
+        preparedStatement->setString(1, name);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        while (resultSet->next()) {
+            userInDb = true;
+        }
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+    }
+
+    return userInDb;
+}
+
+bool Database::insertUser(const std::string& name, const std::string& password)
+{
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("INSERT INTO `users`(`name`, `password`) VALUES (?,?)");
+
+        preparedStatement->setString(1,name);
+        preparedStatement->setString(2,password);
+        
+        preparedStatement->execute();
+        delete preparedStatement;
+        return true;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+        return false;
+    }
 }
