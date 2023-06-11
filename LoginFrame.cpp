@@ -96,6 +96,10 @@ void LoginFrame::OnRegisterClick(wxCommandEvent& event)
 		wxString error = wxString("Complete all fields");
 		wxMessageBox(error);
 	}
+	else if (password.length() < 6) {
+		wxString error = wxString("Password should have 6 or more characters");
+		wxMessageBox(error);
+	}
 	else {
 		std::string hashedPassword = sha256(password.ToStdString());
 

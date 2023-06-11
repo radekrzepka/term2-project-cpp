@@ -13,6 +13,8 @@
 DataFrame::DataFrame(const wxString& title, bool dataCreated) : wxFrame(nullptr, wxID_ANY, title) { //konstruktor frame'u z danymi
 	db = new Database("127.0.0.1", "root", "");
 	wxPanel* dataFramePanel = new wxPanel(this, wxID_ANY); // panel
+
+	Data userData = db->getUserData(UserId);
 	
 	wxStaticText* inputWeightText = new wxStaticText(dataFramePanel, wxID_ANY, "Weight (kg):", wxPoint(10, 50)); //text
 	wxStaticText* inputHeightText = new wxStaticText(dataFramePanel, wxID_ANY, "Height (cm):", wxPoint(10, 75));
@@ -21,13 +23,13 @@ DataFrame::DataFrame(const wxString& title, bool dataCreated) : wxFrame(nullptr,
 	wxStaticText* chooseTargetText = new wxStaticText(dataFramePanel, wxID_ANY, "Target:", wxPoint(10, 153));
 	wxStaticText* chooseActivityText = new wxStaticText(dataFramePanel, wxID_ANY, "Activity:", wxPoint(10, 181));
 
-	weightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "75", wxPoint(85, 45), wxSize(100, -1)); //spinctrl dla wagi i wzrostu
-	weightSpinCtrl->SetRange(40, 120);
+	weightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.weight != 0 ? std::to_string(userData.weight) : "", wxPoint(85, 45), wxSize(100, -1)); //spinctrl dla wagi i wzrostu
+	weightSpinCtrl->SetRange(30, 150);
 
-	heightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "175", wxPoint(85, 70), wxSize(100, -1));
-	heightSpinCtrl->SetRange(150, 210);
+	heightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.height != 0 ? std::to_string(userData.height) : "", wxPoint(85, 70), wxSize(100, -1));
+	heightSpinCtrl->SetRange(140, 210);
 
-	ageSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, "18", wxPoint(85, 95), wxSize(100, -1));
+	ageSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.age != 0 ? std::to_string(userData.age) : "", wxPoint(85, 95), wxSize(100, -1));
 	ageSpinCtrl->SetRange(10, 99);
 
 	wxArrayString sexChoices;
@@ -47,7 +49,7 @@ DataFrame::DataFrame(const wxString& title, bool dataCreated) : wxFrame(nullptr,
 	activityChoices.Add("high");
 	activityRadioBox = new wxRadioBox(dataFramePanel, wxID_ANY, "", wxPoint(75, 160), wxSize(0, 0), activityChoices);
 
-	wxButton* calculateButton = new wxButton(dataFramePanel, wxID_ANY, "calculate", wxPoint(10, 205), wxSize(75, 30));
+	wxButton* calculateButton = new wxButton(dataFramePanel, wxID_ANY, "Set data", wxPoint(10, 205), wxSize(75, 30));
 
 	if (dataCreated) {
 		wxButton* returnButton = new wxButton(dataFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30)); //button powrotu

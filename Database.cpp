@@ -310,3 +310,32 @@ int Database::getUserId(const std::string& name)
 
     return userId;
 }
+
+Data Database::getUserData(const int userId)
+{
+    Data userData;
+
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("SELECT * FROM `users` WHERE `id` = ?");
+        preparedStatement->setInt(1, userId);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        while (resultSet->next()) {
+            userData.height = resultSet->getInt("height");
+            userData.weight = resultSet->getInt("weight");
+            userData.age = resultSet->getInt("age");
+        }
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+    }
+
+    return userData;
+}
