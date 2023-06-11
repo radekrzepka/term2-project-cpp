@@ -63,6 +63,18 @@ void LoginFrame::SetDisplay() {
 
 void LoginFrame::OnLoginButtonClick(wxCommandEvent& event)
 {
+	wxString name = loginName->GetValue();
+	wxString password = loginPassword->GetValue();
+	std::string hashedPassword = sha256(password.ToStdString());
+
+	if (db->getUserPassword(name.ToStdString()) == hashedPassword) {
+		WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
+		Close();
+	}
+	else {
+		wxString message = wxString("Enter valid login details");
+		wxMessageBox(message);
+	}
 }
 
 void LoginFrame::OnRegisterClick(wxCommandEvent& event)

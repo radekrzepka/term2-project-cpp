@@ -93,7 +93,7 @@ void AddingFrame::OnReturnButtonClick(wxCommandEvent& event)
 
 void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 {
-	if (validate() == true) {
+	if (validate()) {
 		Meal* meal = new Meal;
 		meal->name = nameTextCtrl->GetValue();
 		meal->kcal = kcalSpinCtrl->GetValue();

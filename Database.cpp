@@ -256,3 +256,30 @@ bool Database::insertUser(const std::string& name, const std::string& password)
         return false;
     }
 }
+
+std::string Database::getUserPassword(const std::string& name)
+{
+    std::string hashedPassword = "";
+
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("SELECT password FROM `users` WHERE `name` = ?");
+        preparedStatement->setString(1, name);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        while (resultSet->next()) {
+            hashedPassword = resultSet->getString("password");
+        }
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+    }
+
+    return hashedPassword;
+}
