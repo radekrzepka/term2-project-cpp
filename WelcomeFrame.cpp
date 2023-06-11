@@ -21,19 +21,27 @@ WelcomeFrame::WelcomeFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, t
 
 	wxStaticText* welcomeLine = new wxStaticText(welcomeFramePanel, wxID_ANY, "CALORIES", wxPoint(375, 45)); // linia powitalna
 
-	wxButton* summaryFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "summary", wxPoint(300, 250), wxSize(200, 70)); 
-	wxButton* addingFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "add meal", wxPoint(300, 170), wxSize(200, 70)); // buttons
-	wxButton* dataFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "data", wxPoint(300, 90), wxSize(200, 70)); 
+	wxButton* summaryFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Meal Plan", wxPoint(300, 250), wxSize(200, 70)); 
+	wxButton* addingFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Ada meal", wxPoint(300, 170), wxSize(200, 70)); // buttons
+	wxButton* dataFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Change your data", wxPoint(300, 90), wxSize(200, 70));
+	wxButton* logOutButton = new wxButton(welcomeFramePanel, wxID_ANY, "Log out", wxPoint(300, 330), wxSize(200, 70));
 
 	summaryFrameButton->Bind(wxEVT_BUTTON, &WelcomeFrame::OnSummaryFrameButtonClick, this); 
 	addingFrameButton->Bind(wxEVT_BUTTON, &WelcomeFrame::OnAddingFrameButtonClick, this); // przypisanie eventow do buttonow
 	dataFrameButton->Bind(wxEVT_BUTTON, &WelcomeFrame::OnDataFrameButtonClick, this);
+	logOutButton->Bind(wxEVT_BUTTON, &WelcomeFrame::OnLogOutFrameButtonClick, this);
 
 	this->SetDisplay();
 }
 
 void WelcomeFrame::OnSummaryFrameButtonClick(wxCommandEvent& event) {
 	SummaryFrame* summaryFrame = new SummaryFrame("Calories");             // button otwiera okienko podsumowania
+	Close();
+}
+
+void WelcomeFrame::OnLogOutFrameButtonClick(wxCommandEvent& event)
+{
+	LoginFrame* loginFrame = new LoginFrame("Log in or register");
 	Close();
 }
 

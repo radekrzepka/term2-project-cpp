@@ -35,6 +35,7 @@ private:
 	void OnAddingFrameButtonClick(wxCommandEvent& event);
 	void OnDataFrameButtonClick(wxCommandEvent& event);
 	void OnSummaryFrameButtonClick(wxCommandEvent& event);
+	void OnLogOutFrameButtonClick(wxCommandEvent& event);
 };
 
 class SummaryFrame : public wxFrame {
