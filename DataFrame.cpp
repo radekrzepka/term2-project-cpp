@@ -4,17 +4,16 @@
 #include "Frames.h"
 #include "Data.h"
 #include "Database.h"
+#include "UserId.h"
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
 
-DataFrame::DataFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) { //konstruktor frame'u z danymi
+DataFrame::DataFrame(const wxString& title, bool dataCreated) : wxFrame(nullptr, wxID_ANY, title) { //konstruktor frame'u z danymi
 	db = new Database("127.0.0.1", "root", "");
 	wxPanel* dataFramePanel = new wxPanel(this, wxID_ANY); // panel
-
-	wxButton* returnButton = new wxButton(dataFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30)); //button powrotu
-
+	
 	wxStaticText* inputWeightText = new wxStaticText(dataFramePanel, wxID_ANY, "Weight (kg):", wxPoint(10, 50)); //text
 	wxStaticText* inputHeightText = new wxStaticText(dataFramePanel, wxID_ANY, "Height (cm):", wxPoint(10, 75));
 	wxStaticText* inputAgeText = new wxStaticText(dataFramePanel, wxID_ANY, "Age:", wxPoint(10, 100));
@@ -50,7 +49,15 @@ DataFrame::DataFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 	wxButton* calculateButton = new wxButton(dataFramePanel, wxID_ANY, "calculate", wxPoint(10, 205), wxSize(75, 30));
 
-	returnButton->Bind(wxEVT_BUTTON, &DataFrame::OnReturnButtonClick, this); //bindy buttonow
+	if (dataCreated) {
+		wxButton* returnButton = new wxButton(dataFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30)); //button powrotu
+		returnButton->Bind(wxEVT_BUTTON, &DataFrame::OnReturnButtonClick, this); //bindy buttonow
+	}
+	else {
+		wxString message = wxString("As it is your first time using our apliaction, please enter your data.");
+		wxMessageBox(message);
+	}
+		
 	calculateButton->Bind(wxEVT_BUTTON, &DataFrame::OnCalculateButtonClick, this);
 
 	this->SetDisplay();
@@ -120,7 +127,7 @@ void DataFrame::OnCalculateButtonClick(wxCommandEvent& event)
 {
 	Database* db = new Database("127.0.0.1", "root", "");
 	Calculate();
-	db->updateUserData(*data, 1);
+	db->updateUserData(*data, UserId);
 
 	wxString messageBox = wxString("Data has been updated.");
 	wxMessageBox(messageBox);

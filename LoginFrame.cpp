@@ -9,6 +9,7 @@
 #include <sstream>
 
 #include "Frames.h"
+#include "UserId.h"
 
 std::string sha256(const std::string& password) {
 	unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -68,6 +69,9 @@ void LoginFrame::OnLoginButtonClick(wxCommandEvent& event)
 	std::string hashedPassword = sha256(password.ToStdString());
 
 	if (db->getUserPassword(name.ToStdString()) == hashedPassword) {
+		int userId = db->getUserId(name.ToStdString());
+		UserId = userId;
+
 		WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 		Close();
 	}

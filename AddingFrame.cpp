@@ -4,6 +4,7 @@
 #include "Frames.h"
 #include "Meal.h"
 #include "Database.h"
+#include "UserId.h"
 
 #include <wx/wx.h>
 #include <wx/datectrl.h>
@@ -103,7 +104,7 @@ void AddingFrame::OnAddButtonClick(wxCommandEvent& event)
 		meal->type = typeChoice->GetSelection();
 		meal->date = datePicker->GetValue();
 
-		db->insertMeal(*meal, 1);
+		db->insertMeal(*meal, UserId);
 
 		wxString messageBox = wxString("Meal added.");
 		wxMessageBox(messageBox);

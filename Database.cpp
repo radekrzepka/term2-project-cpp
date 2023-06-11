@@ -283,3 +283,30 @@ std::string Database::getUserPassword(const std::string& name)
 
     return hashedPassword;
 }
+
+int Database::getUserId(const std::string& name)
+{
+    int userId = 0;
+
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("SELECT id FROM `users` WHERE `name` = ?");
+        preparedStatement->setString(1, name);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        while (resultSet->next()) {
+            userId = resultSet->getInt("id");
+        }
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+    }
+
+    return userId;
+}

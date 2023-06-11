@@ -8,6 +8,5 @@ wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
 	LoginFrame* loginFrame = new LoginFrame("Log in or register");
-	//WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 	return true;
 }

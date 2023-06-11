@@ -5,12 +5,13 @@
 #include "Database.h"
 #include "Meal.h"
 #include "UserTargets.h"
+#include "UserId.h"
 
 #include <wx/wx.h>
 
 SummaryFrame::SummaryFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title) {
 	db = new Database("127.0.0.1", "root", "");
-	userTargets = db->getUserTargets(1);
+	userTargets = db->getUserTargets(UserId);
 
 	summaryFramePanel = new wxPanel(this, wxID_ANY);
 
@@ -37,7 +38,7 @@ void SummaryFrame::AddMealBox()
 {
 	wxDateTime selectedDate = datePicker->GetValue();
 	std::string dateString = selectedDate.Format("%Y-%m-%d").ToStdString();
-	std::vector<Meal> meals = db->getMealsByDate(dateString, 1);
+	std::vector<Meal> meals = db->getMealsByDate(dateString, UserId);
 
 	int caloriesSum = 0, carboSum = 0, proteinsSum = 0, fatsSum = 0;
 

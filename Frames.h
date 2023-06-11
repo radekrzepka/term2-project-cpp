@@ -30,6 +30,7 @@ class WelcomeFrame : public wxFrame { // klasa okienka powitalnego
 public:
 	WelcomeFrame(const wxString& title);
 private:
+	Database* db;
 	void SetDisplay();
 	void OnAddingFrameButtonClick(wxCommandEvent& event);
 	void OnDataFrameButtonClick(wxCommandEvent& event);
@@ -53,7 +54,7 @@ private:
 
 class DataFrame : public wxFrame {
 public:
-	DataFrame(const wxString& title);
+	DataFrame(const wxString& title, bool dataCreated = true);
 private:
 	Database* db;
 	Data* data;

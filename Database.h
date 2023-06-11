@@ -26,4 +26,5 @@ public:
     bool checkIfNameInDb(const std::string& name);
     bool insertUser(const std::string& name, const std::string& password);
     std::string getUserPassword(const std::string& name);
+    int getUserId(const std::string& name);
 };

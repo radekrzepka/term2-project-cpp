@@ -2,10 +2,21 @@
 
 #include "App.h"
 #include "Frames.h"
+#include "UserTargets.h"
+#include "UserId.h"
+#include "Database.h"
 
 #include <wx/wx.h>
 
 WelcomeFrame::WelcomeFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
+	db = new Database("127.0.0.1", "root", "");
+	UserTargets userTargets = db->getUserTargets(UserId);
+
+	if (userTargets.caloriesTarget == 0) {
+		DataFrame* dataFrame = new DataFrame("Calories", false);                      // button otwiera okienko danych
+		Close();
+	}
+
 	wxPanel* welcomeFramePanel = new wxPanel(this, wxID_ANY); // panel sluzy jako container
 
 	wxStaticText* welcomeLine = new wxStaticText(welcomeFramePanel, wxID_ANY, "CALORIES", wxPoint(375, 45)); // linia powitalna
