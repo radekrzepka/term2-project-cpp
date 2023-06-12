@@ -7,6 +7,6 @@
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
-	LoginFrame* loginFrame = new LoginFrame("Log in or register");
+	LoginFrame* loginFrame = new LoginFrame("Log in or register"); // poczatek aplikacji, okienko logowania 
 	return true;
 }

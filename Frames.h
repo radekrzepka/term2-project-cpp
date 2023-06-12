@@ -28,28 +28,28 @@ private:
 
 class WelcomeFrame : public wxFrame { // klasa okienka powitalnego
 public:
-	WelcomeFrame(const wxString& title);
+	WelcomeFrame(const wxString& title); // konstruktor 
 private:
 	Database* db;
-	void SetDisplay();
-	void OnAddingFrameButtonClick(wxCommandEvent& event);
+	void SetDisplay(); // funkcja definiujaca rozmiary okienka
+	void OnAddingFrameButtonClick(wxCommandEvent& event); 
 	void OnDataFrameButtonClick(wxCommandEvent& event);
-	void OnSummaryFrameButtonClick(wxCommandEvent& event);
+	void OnSummaryFrameButtonClick(wxCommandEvent& event); // funkcje wykonujace sie po kliknieciu buttonow
 	void OnLogOutFrameButtonClick(wxCommandEvent& event);
 };
 
 class SummaryFrame : public wxFrame {
 public:
-	SummaryFrame(const wxString& title);
+	SummaryFrame(const wxString& title); // konstruktor
 private:
 	Database* db;
 	UserTargets userTargets;
-	int delay = 40;
-	wxPanel* summaryFramePanel;
+	int delay = 40; // zmienna wykorzystana jako przerwa miedzy wierszami dodawanych posilkow
+	wxPanel* summaryFramePanel; // panel
 	wxDatePickerCtrl* datePicker;
 	void SetDisplay();
-	void AddMealBox();
-	void OnReturnButtonClick(wxCommandEvent& event);
+	void AddMealBox(); // funkcja dodajaca posilek do meal planu
+	void OnReturnButtonClick(wxCommandEvent& event); // funkcje wykonujace sie po kliknieciu buttonow
 	void OnDateChanged(wxDateEvent& event);
 };
 
@@ -61,7 +61,7 @@ private:
 	Data* data;
 	wxSpinCtrl* weightSpinCtrl;
 	wxSpinCtrl* heightSpinCtrl;
-	wxSpinCtrl* ageSpinCtrl;
+	wxSpinCtrl* ageSpinCtrl; //deklaracje kontrolek
 	wxRadioBox* sexRadioBox;
 	wxRadioBox* targetRadioBox;
 	wxRadioBox* activityRadioBox;
@@ -79,7 +79,7 @@ private:
 	Meal* meal;
 	wxTextCtrl* nameTextCtrl;
 	wxDatePickerCtrl* datePicker;
-	wxChoice* typeChoice;
+	wxChoice* typeChoice; //deklaracje kontrolek
 	wxSpinCtrl* kcalSpinCtrl;
 	wxSpinCtrl* proteinSpinCtrl;
 	wxSpinCtrl* carbsSpinCtrl;

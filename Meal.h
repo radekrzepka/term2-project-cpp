@@ -5,7 +5,7 @@
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 
-class Meal {
+class Meal { //klasa posilku
 public:
 	wxString name;
 	int kcal;

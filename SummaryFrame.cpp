@@ -15,10 +15,10 @@ SummaryFrame::SummaryFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, ti
 
 	summaryFramePanel = new wxPanel(this, wxID_ANY);
 
-	datePicker = new wxDatePickerCtrl(summaryFramePanel, wxID_ANY, wxDefaultDateTime, wxPoint(390, 20), wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY);
+	datePicker = new wxDatePickerCtrl(summaryFramePanel, wxID_ANY, wxDefaultDateTime, wxPoint(390, 20), wxDefaultSize, wxDP_DEFAULT | wxDP_SHOWCENTURY); // kontrolka wyboru daty 
 	datePicker->SetValue(wxDateTime::Today());
 
-	AddMealBox();
+	AddMealBox(); //wywolanie metody dodania posilkow
 
 	wxButton* returnButton = new wxButton(summaryFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30));
 
@@ -93,5 +93,4 @@ void SummaryFrame::OnReturnButtonClick(wxCommandEvent& event)
 void SummaryFrame::OnDateChanged(wxDateEvent& event)
 {
 	AddMealBox();
-	Refresh();
 }

@@ -22,7 +22,7 @@ WelcomeFrame::WelcomeFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, t
 	wxStaticText* welcomeLine = new wxStaticText(welcomeFramePanel, wxID_ANY, "CALORIES", wxPoint(375, 45)); // linia powitalna
 
 	wxButton* summaryFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Meal Plan", wxPoint(300, 250), wxSize(200, 70)); 
-	wxButton* addingFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Ada meal", wxPoint(300, 170), wxSize(200, 70)); // buttons
+	wxButton* addingFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Add meal", wxPoint(300, 170), wxSize(200, 70)); // buttons
 	wxButton* dataFrameButton = new wxButton(welcomeFramePanel, wxID_ANY, "Change your data", wxPoint(300, 90), wxSize(200, 70));
 	wxButton* logOutButton = new wxButton(welcomeFramePanel, wxID_ANY, "Log out", wxPoint(300, 330), wxSize(200, 70));
 

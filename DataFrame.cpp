@@ -26,7 +26,7 @@ DataFrame::DataFrame(const wxString& title, bool dataCreated) : wxFrame(nullptr,
 	weightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.weight != 0 ? std::to_string(userData.weight) : "", wxPoint(85, 45), wxSize(100, -1)); //spinctrl dla wagi i wzrostu
 	weightSpinCtrl->SetRange(30, 150);
 
-	heightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.height != 0 ? std::to_string(userData.height) : "", wxPoint(85, 70), wxSize(100, -1));
+	heightSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.height != 0 ? std::to_string(userData.height) : "", wxPoint(85, 70), wxSize(100, -1)); // kontrolka wprowadzenia wzrostu 
 	heightSpinCtrl->SetRange(140, 210);
 
 	ageSpinCtrl = new wxSpinCtrl(dataFramePanel, wxID_ANY, userData.age != 0 ? std::to_string(userData.age) : "", wxPoint(85, 95), wxSize(100, -1));
@@ -35,7 +35,7 @@ DataFrame::DataFrame(const wxString& title, bool dataCreated) : wxFrame(nullptr,
 	wxArrayString sexChoices;
 	sexChoices.Add("male");
 	sexChoices.Add("female");
-	sexRadioBox = new wxRadioBox(dataFramePanel, wxID_ANY, "", wxPoint(75, 110), wxSize(0, 0), sexChoices);
+	sexRadioBox = new wxRadioBox(dataFramePanel, wxID_ANY, "", wxPoint(75, 110), wxSize(0, 0), sexChoices); // kontrolka wyboru plci 
 
 	wxArrayString targetChoices;
 	targetChoices.Add("lose weight");
@@ -71,7 +71,7 @@ void DataFrame::SetDisplay() {
 	this->Show();
 }
 
-void DataFrame::Calculate() {
+void DataFrame::Calculate() { // metoda obliczajaca zapotrzebowanie 
 	data = new Data();
 
 	data->weight = weightSpinCtrl->GetValue(); //odczytanie wagi
@@ -125,7 +125,7 @@ void DataFrame::OnReturnButtonClick(wxCommandEvent& event)
 	Close();
 }
 
-void DataFrame::OnCalculateButtonClick(wxCommandEvent& event)
+void DataFrame::OnCalculateButtonClick(wxCommandEvent& event) // metoda dodania danych do db
 {
 	Database* db = new Database("127.0.0.1", "root", "");
 	Calculate();
