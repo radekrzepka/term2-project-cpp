@@ -47,10 +47,12 @@ private:
 	int delay = 40; // zmienna wykorzystana jako przerwa miedzy wierszami dodawanych posilkow
 	wxPanel* summaryFramePanel; // panel
 	wxDatePickerCtrl* datePicker;
+	wxButton* returnButton;
 	void SetDisplay();
 	void AddMealBox(); // funkcja dodajaca posilek do meal planu
 	void OnReturnButtonClick(wxCommandEvent& event); // funkcje wykonujace sie po kliknieciu buttonow
 	void OnDateChanged(wxDateEvent& event);
+	void OnDeleteButtonClick(wxCommandEvent& event);
 };
 
 class DataFrame : public wxFrame {

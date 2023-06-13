@@ -104,18 +104,25 @@ void DataFrame::Calculate() { // metoda obliczajaca zapotrzebowanie
 		break;
 	}
 
+	double proteinsQuantity = 0;
+
 	switch (data->target) {
 	case 0:
 		result -= 300;
+		proteinsQuantity = 0.32;
+		break;
+	case 1:
+		proteinsQuantity = 0.28;
 		break;
 	case 2:
 		result += 300;
+		proteinsQuantity = 0.28;
 		break;
 	}
 
 	data->usertargets.caloriesTarget = result;
-	data->usertargets.proteinsTarget = result / 4 * 0.3;
-	data->usertargets.fatsTarget = result / 9 * 0.2;
+	data->usertargets.proteinsTarget = result / 4 * proteinsQuantity;
+	data->usertargets.fatsTarget = result / 9 * (0.5 - proteinsQuantity);
 	data->usertargets.carbsTarget = result / 4 * 0.5;
 }
 

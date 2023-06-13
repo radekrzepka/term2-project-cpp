@@ -28,4 +28,5 @@ public:
     std::string getUserPassword(const std::string& name);
     int getUserId(const std::string& name);
     Data getUserData(const int userId);
+    void deleteMeal(const int mealId);
 };

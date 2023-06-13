@@ -109,8 +109,6 @@ void AddingFrame::OnAddButtonClick(wxCommandEvent& event) // metoda dodajaca pos
 		wxString messageBox = wxString("Meal added.");
 		wxMessageBox(messageBox);
 
-		delete db;
-
 		WelcomeFrame* welcomeFrame = new WelcomeFrame("Calories");
 		Close();
 	}

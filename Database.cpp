@@ -164,6 +164,8 @@ std::vector<Meal> Database::getMealsByDate(const std::string& date, const int us
             meal.carbs = resultSet->getInt("carbohydrates");
             meal.protein = resultSet->getInt("proteins");
             meal.fat = resultSet->getInt("fats");
+            
+            meal.id = resultSet->getInt("id");
 
             meals.push_back(meal);
         }
@@ -338,4 +340,23 @@ Data Database::getUserData(const int userId)
     }
 
     return userData;
+}
+
+void Database::deleteMeal(const int mealId)
+{
+    try {
+        connection->setSchema("term2-project-cpp");
+
+        sql::PreparedStatement* preparedStatement = connection->prepareStatement("DELETE FROM `meals` WHERE id = ?");
+        preparedStatement->setInt(1, mealId);
+
+        sql::ResultSet* resultSet = preparedStatement->executeQuery();
+
+        delete resultSet;
+        delete preparedStatement;
+    }
+    catch (sql::SQLException& e) {
+        wxString error = wxString::Format(e.what());
+        wxMessageBox(error);
+    }
 }

@@ -7,6 +7,7 @@
 
 class Meal { //klasa posilku
 public:
+	int id;
 	wxString name;
 	int kcal;
 	int protein;

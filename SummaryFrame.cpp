@@ -20,7 +20,7 @@ SummaryFrame::SummaryFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, ti
 
 	AddMealBox(); //wywolanie metody dodania posilkow
 
-	wxButton* returnButton = new wxButton(summaryFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30));
+	returnButton = new wxButton(summaryFramePanel, wxID_ANY, "return", wxPoint(10, 10), wxSize(75, 30));
 
 	returnButton->Bind(wxEVT_BUTTON, &SummaryFrame::OnReturnButtonClick, this);
 	datePicker->Bind(wxEVT_DATE_CHANGED, &SummaryFrame::OnDateChanged, this);
@@ -45,7 +45,7 @@ void SummaryFrame::AddMealBox()
 	// Clear old data
 	wxWindowList& children = summaryFramePanel->GetChildren();
 	for (auto child : children) {
-		if (child->IsKindOf(CLASSINFO(wxStaticText))) {
+		if (child->IsKindOf(CLASSINFO(wxStaticText)) || child->IsKindOf(CLASSINFO(wxButton)) && child != returnButton) {
 			summaryFramePanel->RemoveChild(child);
 			child->Destroy();
 		}
@@ -67,6 +67,9 @@ void SummaryFrame::AddMealBox()
 		wxStaticText* proteinText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.protein), wxPoint(420, 100 + delay)); //tabela
 		wxStaticText* carbsText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.carbs), wxPoint(520, 100 + delay));
 		wxStaticText* fatText = new wxStaticText(summaryFramePanel, wxID_ANY, std::to_string(meal.fat), wxPoint(620, 100 + delay));
+
+		wxButton* deleteMealButton = new wxButton(summaryFramePanel, meal.id, "Delete", wxPoint(670, 100 + delay), wxSize(75, 20));
+		deleteMealButton->Bind(wxEVT_BUTTON, &SummaryFrame::OnDeleteButtonClick, this); // Bind the event
 
 		caloriesSum += meal.kcal;
 		carboSum += meal.carbs;
@@ -92,5 +95,14 @@ void SummaryFrame::OnReturnButtonClick(wxCommandEvent& event)
 
 void SummaryFrame::OnDateChanged(wxDateEvent& event)
 {
+	AddMealBox();
+}
+
+void SummaryFrame::OnDeleteButtonClick(wxCommandEvent& event)
+{
+	int mealId = event.GetId();
+	db->deleteMeal(mealId);
+	wxString messageBox = wxString("The meal has been deleted.");
+	wxMessageBox(messageBox);
 	AddMealBox();
 }
