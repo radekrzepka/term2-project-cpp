@@ -71,12 +71,14 @@ bool AddingFrame::validate() // metoda sprawdzajaca czy podane dane sa poprawne
 	int protein = proteinSpinCtrl->GetValue();
 	int carbs = carbsSpinCtrl->GetValue();
 	int fat = fatSpinCtrl->GetValue();
+	int calories = kcalSpinCtrl->GetValue();
+
 	if (l > 60) {
 		wxMessageBox("Name is too long!");
 		return false;
 	}
 	else {
-		if ((protein+carbs+fat)<101) {
+		if ((protein+carbs+fat) < calories) {
 			return true;
 		}
 		else {
