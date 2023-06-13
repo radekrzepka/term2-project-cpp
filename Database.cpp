@@ -13,6 +13,7 @@
 #include "Meal.h"
 
 #include <iostream>
+#include <algorithm>
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
@@ -169,6 +170,17 @@ std::vector<Meal> Database::getMealsByDate(const std::string& date, const int us
 
             meals.push_back(meal);
         }
+
+        auto mealComparator = [](const Meal& meal1, const Meal& meal2) {
+            std::vector<std::string> typeOrder = { "breakfast", "snack I", "lunch", "snack II", "dinner" };
+
+            auto iter1 = std::find(typeOrder.begin(), typeOrder.end(), meal1.typeString);
+            auto iter2 = std::find(typeOrder.begin(), typeOrder.end(), meal2.typeString);
+
+            return iter1 < iter2;
+        };
+
+        std::sort(meals.begin(), meals.end(), mealComparator);
 
         delete resultSet;
         delete preparedStatement;
